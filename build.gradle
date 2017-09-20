@@ -36,6 +36,9 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter:$spring_boot_version"
     compile "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"
     compile "com.fasterxml.jackson.module:jackson-module-kotlin"
+
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.1"
+
 }
 
 compileKotlin {

@@ -16,12 +16,14 @@ open class BaseModel() {
 
     var createdDate: Instant = Instant.now()
 
-    @ManyToOne
-    lateinit var createdBy: Author
-
     var editedDate: Instant? = null
+
+    @ManyToOne
+    open lateinit var createdBy: Author
 
     open var content: String = ""
 
     var rank: Int = 0
+
+    constructor(title: String, content: String, createdBy: Author) : this()
 }

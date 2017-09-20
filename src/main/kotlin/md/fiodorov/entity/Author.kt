@@ -11,9 +11,9 @@ import javax.persistence.Id
  * on 19/09/17.
  */
 @Entity
-data class Author(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long?,
+data class Author(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long? = null,
                   val name: String,
                   val email: String,
-                  val registeredDate: Instant,
-                  val karma: Int
+                  val registeredDate: Instant = Instant.now(),
+                  val karma: Int = 0
 )
