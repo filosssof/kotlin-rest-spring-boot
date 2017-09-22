@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import md.fiodorov.entity.Author
 import md.fiodorov.entity.Question
 import md.fiodorov.utils.GravatarUtils
-import org.springframework.data.annotation.CreatedDate
 import java.time.Instant
 
 /**
@@ -21,6 +20,7 @@ data class ShowQuestionView constructor(
         val title: String,
         val content: String,
         val rank: Int,
+        val answered: Boolean,
         val author: ShowAuthorView,
         val createdDate: Instant,
         val editedDate: Instant?
@@ -46,7 +46,8 @@ fun Question.toShowQuestionView() = ShowQuestionView(
         rank = this.rank,
         author = this.createdBy.toShowAuthorview(),
         createdDate = this.createdDate,
-        editedDate = this.editedDate
+        editedDate = this.editedDate,
+        answered = this.answered
 )
 
 

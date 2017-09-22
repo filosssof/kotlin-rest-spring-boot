@@ -1,11 +1,12 @@
 package md.fiodorov.controller
 
-import md.fiodorov.repository.QuestionRepository
+import md.fiodorov.filter.QuestionFilter
 import md.fiodorov.service.QuestionService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
+import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.*
 
 /**
  * @author rfiodorov
@@ -13,13 +14,16 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping("/questions")
-class QuestionController (val questionService: QuestionService) {
+class QuestionController(val questionService: QuestionService) {
 
-//    @GetMapping
-//    fun findAll() = questionRepository.findAll()
 
-    @GetMapping("/{id}")
-    fun findById(@PathVariable id: Long) = questionService.findById(id)
+    @GetMapping
+    @ResponseBody fun findAll(@RequestParam filter: QuestionFilter,
+                @PageableDefault(direction = Sort.Direction.DESC, sort = arrayOf("createdDate"), size = 30)
+                pageRequest: Pageable) = questionService.findByFilter(filter = filter, pageRequest = pageRequest)
+
+    @GetMapping(value = "/{id}", produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
+    @ResponseBody fun findById(@PathVariable id: Long) = questionService.findById(id)
 
 //    @PostMapping
 //    fun addBook(@RequestBody view: CreateBookView){

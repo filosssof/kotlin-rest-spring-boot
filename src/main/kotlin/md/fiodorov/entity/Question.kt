@@ -7,4 +7,13 @@ import javax.persistence.Entity
  * on 19/09/17.
  */
 @Entity
-class Question(val title: String, override var content: String, override var createdBy: Author) : BaseModel(title,content, createdBy)
+class Question(
+        val title: String,
+
+        val answered: Boolean = false,
+
+        override
+        var content: String,
+
+        override
+        var createdBy: Author) : BaseModel(title, content, createdBy)
