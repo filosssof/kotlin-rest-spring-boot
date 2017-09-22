@@ -1,6 +1,9 @@
 package md.fiodorov.service
 
 import md.fiodorov.repository.QuestionRepository
+import md.fiodorov.view.ShowQuestionView
+import md.fiodorov.view.toShowQuestionView
+import org.jetbrains.annotations.NotNull
 import org.springframework.stereotype.Service
 
 /**
@@ -9,18 +12,19 @@ import org.springframework.stereotype.Service
  */
 @Service
 class QuestionService(val questionRepository: QuestionRepository) {
-//
+
 //    fun findBooksByFilter(filter: BookFilter): Iterable<Book> {
 //
 //    }
 
-//    fun findBookById(@NotNull id: Long): BookView? {
-//        if (id > 0) {
-//            return bookRepository.findOne(id)?.toBookView()
-//        } else {
-//            throw IllegalArgumentException("Id should be greater than 0")
-//        }
-//    }
+    fun findById(@NotNull id: Long): ShowQuestionView? {
+        if (id > 0) {
+            val domain = questionRepository.findOne(id)
+            return domain?.toShowQuestionView()
+        } else {
+            throw IllegalArgumentException("Id should be greater than 0")
+        }
+    }
 
 
 }
