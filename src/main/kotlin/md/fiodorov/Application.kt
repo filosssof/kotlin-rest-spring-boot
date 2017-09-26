@@ -21,6 +21,7 @@ class HzApplication {
         val author = authorRepository.save(Author(name = "Test", email = "Email@example.com"))
         questionRepository.save(Question(title = "Title", content = "Content", createdBy = author))
         questionRepository.save(Question(title = "Корейский вопрос", content = "Интернетовская шутка: в Сети появился корейский вирус. Каково его действие?", createdBy = author))
+        questionRepository.save(Question(title = "Эйнштейнов вопрос", content = "А стоит ли носить носки", createdBy = author))
     }
 }
 

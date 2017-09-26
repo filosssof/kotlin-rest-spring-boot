@@ -24,6 +24,7 @@ apply plugin: "kotlin-jpa"
 apply plugin: "org.springframework.boot"
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 
@@ -38,6 +39,8 @@ dependencies {
     compile "com.fasterxml.jackson.module:jackson-module-kotlin"
 
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.1"
+
+    compile 'au.com.console:kotlin-jpa-specification-dsl:0.1.0'
 
 }
 

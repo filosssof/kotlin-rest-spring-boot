@@ -3,18 +3,21 @@ package md.fiodorov.repository
 import md.fiodorov.entity.Answer
 import md.fiodorov.entity.Author
 import md.fiodorov.entity.Question
-import org.springframework.data.repository.CrudRepository
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor
+import org.springframework.data.repository.PagingAndSortingRepository
+
 
 /**
  * @author rfiodorov
  * on 22/08/17.
  */
 
-interface QuestionRepository: CrudRepository<Question, Long>
+interface QuestionRepository: PagingAndSortingRepository<Question, Long>, JpaSpecificationExecutor<Question>
 
-interface AnswerRepository: CrudRepository<Answer, Long>
+interface AnswerRepository: PagingAndSortingRepository<Answer, Long>, JpaSpecificationExecutor<Answer>
 
-interface AuthorRepository: CrudRepository<Author, Long>
+interface AuthorRepository: PagingAndSortingRepository<Author, Long>, JpaSpecificationExecutor<Author>
+
 
 
 
