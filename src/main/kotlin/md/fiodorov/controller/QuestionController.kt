@@ -2,6 +2,7 @@ package md.fiodorov.controller
 
 import md.fiodorov.entity.Question
 import md.fiodorov.service.QuestionService
+import md.fiodorov.view.CreateQuestionView
 import md.fiodorov.view.ShowQuestionView
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 /**
  * @author rfiodorov
@@ -35,9 +37,8 @@ class QuestionController(val questionService: QuestionService) {
         return questionService.findById(id)
     }
 
-//    @PostMapping
-//    fun addBook(@RequestBody view: CreateBookView){
-////        val domain = view.toBookDomain().apply { author }
-//        questionRepository.save(domain)
-//    }
+    @PostMapping
+    fun addQuestion(@RequestBody @Valid view: CreateQuestionView){
+        questionService.save(view)
+    }
 }

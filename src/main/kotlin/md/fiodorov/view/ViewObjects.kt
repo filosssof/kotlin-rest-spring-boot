@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import md.fiodorov.entity.Author
 import md.fiodorov.entity.Question
 import md.fiodorov.utils.GravatarUtils
+import org.hibernate.validator.constraints.NotBlank
 import java.time.Instant
 
 /**
@@ -11,8 +12,8 @@ import java.time.Instant
  * on 22/08/17.
  */
 data class CreateQuestionView @JsonCreator constructor(
-        val title: String,
-        val content: String
+        @get:NotBlank val title: String,
+        @get:NotBlank val content: String
 )
 
 data class ShowQuestionView constructor(
