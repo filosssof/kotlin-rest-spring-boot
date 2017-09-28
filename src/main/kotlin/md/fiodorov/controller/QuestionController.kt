@@ -55,4 +55,11 @@ class QuestionController(val questionService: QuestionService) {
         logger.debug("Called QuestionController#editQuestion({})", view)
         questionService.edit(id,view)
     }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @DeleteMapping(value = "/{id}")
+    fun deleteQuestion(@PathVariable @NotNullOrNegative id: Long){
+        logger.debug("Called QuestionController#deleteQuestion({})", id)
+        questionService.delete(id)
+    }
 }

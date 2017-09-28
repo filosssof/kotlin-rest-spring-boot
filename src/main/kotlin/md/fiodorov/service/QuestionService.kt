@@ -45,6 +45,12 @@ class QuestionService(val questionRepository: QuestionRepository, val authorRepo
         questionRepository.save(question)
     }
 
+    fun delete(@NotNullOrNegative id: Long){
+        val storedQuestion = questionRepository.findOne(id) ?: throw EntityNotFoundException("The question with this id does not exist")
+        storedQuestion.deleted = true
+        questionRepository.save(storedQuestion)
+    }
+
     fun edit(@NotNullOrNegative id: Long, view: CreateUpdateQuestionView, currentUser: Author = Author(name = "NoName", email = "noname@example.com")) {//TODO remove default user after including user management
         val savedAuthor = authorRepository.save(currentUser)//TODO also remove this logic after real user login
         val storedQuestion = questionRepository.findOne(id) ?: throw EntityNotFoundException("The question with this id does not exist")
