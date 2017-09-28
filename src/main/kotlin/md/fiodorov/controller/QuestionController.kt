@@ -10,12 +10,10 @@ import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
-import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.http.HttpStatus
-import javax.validation.ConstraintViolationException
 
 
 /**
@@ -28,8 +26,8 @@ class QuestionController(val questionService: QuestionService) {
 
     val logger: Logger = LoggerFactory.getLogger(QuestionController::class.java)
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    @ResponseBody
     fun findAll(@RequestParam(required = false) filter: String?,
                 @PageableDefault(direction = Sort.Direction.DESC, sort = arrayOf("createdDate"), size = 30)
                 pageRequest: Pageable): Iterable<Question> {
@@ -37,13 +35,14 @@ class QuestionController(val questionService: QuestionService) {
         return questionService.findByFilter(filterString = filter, pageRequest = pageRequest)
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}", produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
-    @ResponseBody
     fun findById(@PathVariable @NotNullOrNegative id: Long): ShowQuestionView? {
         logger.debug("Called QuestionController#findById({})", id)
         return questionService.findById(id)
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     fun addQuestion(@RequestBody @Valid view: CreateQuestionView) {
         questionService.save(view)
