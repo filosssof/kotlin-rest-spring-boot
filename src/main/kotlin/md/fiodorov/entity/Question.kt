@@ -16,4 +16,6 @@ class Question(
         var content: String,
 
         override
-        var createdBy: Author) : BaseModel(title, content, createdBy)
+        var createdBy: Author
+
+) : BaseModel(title, content, createdBy)

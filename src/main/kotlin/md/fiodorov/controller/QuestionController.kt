@@ -27,7 +27,7 @@ class QuestionController(val questionService: QuestionService) {
     val logger: Logger = LoggerFactory.getLogger(QuestionController::class.java)
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping
+    @GetMapping(produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     fun findAll(@RequestParam(required = false) filter: String?,
                 @PageableDefault(direction = Sort.Direction.DESC, sort = arrayOf("createdDate"), size = 30)
                 pageRequest: Pageable): Iterable<Question> {
@@ -45,6 +45,7 @@ class QuestionController(val questionService: QuestionService) {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     fun addQuestion(@RequestBody @Valid view: CreateQuestionView) {
+        logger.debug("Called QuestionController#addQuestion({})", view)
         questionService.save(view)
     }
 }
