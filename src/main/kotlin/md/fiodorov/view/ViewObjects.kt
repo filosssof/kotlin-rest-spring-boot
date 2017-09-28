@@ -11,7 +11,7 @@ import java.time.Instant
  * @author rfiodorov
  * on 22/08/17.
  */
-data class CreateQuestionView @JsonCreator constructor(
+data class CreateUpdateQuestionView @JsonCreator constructor(
         @get:NotBlank val title: String,
         @get:NotBlank val content: String
 )
@@ -22,8 +22,9 @@ data class ShowQuestionView constructor(
         val content: String,
         val rank: Int,
         val answered: Boolean,
-        val author: ShowAuthorView,
+        val createdBy: ShowAuthorView,
         val createdDate: Instant,
+        val editedBy: ShowAuthorView?,
         val editedDate: Instant?
 )
 
@@ -45,8 +46,9 @@ fun Question.toShowQuestionView() = ShowQuestionView(
         title = this.title,
         content = this.content,
         rank = this.rank,
-        author = this.createdBy.toShowAuthorview(),
+        createdBy = this.createdBy.toShowAuthorview(),
         createdDate = this.createdDate,
         editedDate = this.editedDate,
+        editedBy = this.editedBy?.toShowAuthorview(),
         answered = this.answered
 )

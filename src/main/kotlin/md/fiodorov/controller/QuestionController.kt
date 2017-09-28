@@ -3,7 +3,7 @@ package md.fiodorov.controller
 import md.fiodorov.entity.Question
 import md.fiodorov.service.QuestionService
 import md.fiodorov.validation.NotNullOrNegative
-import md.fiodorov.view.CreateQuestionView
+import md.fiodorov.view.CreateUpdateQuestionView
 import md.fiodorov.view.ShowQuestionView
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -37,15 +37,22 @@ class QuestionController(val questionService: QuestionService) {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}", produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
-    fun findById(@PathVariable @NotNullOrNegative id: Long): ShowQuestionView? {
+    fun findById(@PathVariable id: Long): ShowQuestionView? {
         logger.debug("Called QuestionController#findById({})", id)
         return questionService.findById(id)
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    fun addQuestion(@RequestBody @Valid view: CreateQuestionView) {
+    fun addQuestion(@RequestBody @Valid view: CreateUpdateQuestionView) {
         logger.debug("Called QuestionController#addQuestion({})", view)
-        questionService.save(view)
+        questionService.add(view)
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PutMapping(value = "/{id}")
+    fun editQuestion(@PathVariable @NotNullOrNegative id: Long, @RequestBody @Valid view: CreateUpdateQuestionView) {
+        logger.debug("Called QuestionController#editQuestion({})", view)
+        questionService.edit(id,view)
     }
 }

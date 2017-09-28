@@ -8,7 +8,7 @@ import javax.persistence.Entity
  */
 @Entity
 class Question(
-        val title: String,
+        var title: String,
 
         val answered: Boolean = false,
 

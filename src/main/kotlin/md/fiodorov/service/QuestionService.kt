@@ -8,12 +8,14 @@ import md.fiodorov.filter.QuestionFilter
 import md.fiodorov.repository.AuthorRepository
 import md.fiodorov.repository.QuestionRepository
 import md.fiodorov.validation.NotNullOrNegative
-import md.fiodorov.view.CreateQuestionView
+import md.fiodorov.view.CreateUpdateQuestionView
 import md.fiodorov.view.ShowQuestionView
 import md.fiodorov.view.toShowQuestionView
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.validation.annotation.Validated
+import java.time.Instant
+import javax.persistence.EntityNotFoundException
 
 /**
  * @author rfiodorov
@@ -33,13 +35,33 @@ class QuestionService(val questionRepository: QuestionRepository, val authorRepo
     }
 
     fun findById(@NotNullOrNegative id: Long): ShowQuestionView? {
-            val domain = questionRepository.findOne(id)
-            return domain?.toShowQuestionView()
+        val domain = questionRepository.findOne(id)
+        return domain?.toShowQuestionView()
     }
 
-    fun save(view: CreateQuestionView, currentUser: Author = Author(name = "NoName", email = "noname@example.com")) {//TODO remove default user after including user management
+    fun add(view: CreateUpdateQuestionView, currentUser: Author = Author(name = "NoName", email = "noname@example.com")) {//TODO remove default user after including user management
         val savedAuthor = authorRepository.save(currentUser)//TODO also remove this logic after real user login
         val question = Question(title = view.title, content = view.content, createdBy = savedAuthor)
         questionRepository.save(question)
+    }
+
+    fun edit(@NotNullOrNegative id: Long, view: CreateUpdateQuestionView, currentUser: Author = Author(name = "NoName", email = "noname@example.com")) {//TODO remove default user after including user management
+        val savedAuthor = authorRepository.save(currentUser)//TODO also remove this logic after real user login
+        val storedQuestion = questionRepository.findOne(id) ?: throw EntityNotFoundException("The question with this id does not exist")
+        processUpdateQuestion(view, storedQuestion,savedAuthor)
+        questionRepository.save(storedQuestion)
+    }
+
+    private fun processUpdateQuestion(view: CreateUpdateQuestionView, domain: Question, editor: Author) {
+        if (domain.title != view.title) {
+            domain.title = view.title
+        }
+
+        if (domain.content != view.content) {
+            domain.content = view.content
+        }
+
+        domain.editedDate = Instant.now()
+        domain.editedBy = editor
     }
 }

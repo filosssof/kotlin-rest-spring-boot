@@ -21,9 +21,14 @@ open class BaseModel() {
     @ManyToOne
     open lateinit var createdBy: Author
 
+    @ManyToOne
+    var editedBy: Author? = null
+
     open var content: String = ""
 
     var rank: Int = 0
+
+    var deleted: Boolean = false
 
     constructor(title: String, content: String, createdBy: Author) : this()
 }
