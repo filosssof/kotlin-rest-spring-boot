@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import md.fiodorov.entity.Author
 import md.fiodorov.entity.Question
 import md.fiodorov.utils.GravatarUtils
+import md.fiodorov.validation.NotNullOrNegative
 import org.hibernate.validator.constraints.NotBlank
 import java.time.Instant
 
