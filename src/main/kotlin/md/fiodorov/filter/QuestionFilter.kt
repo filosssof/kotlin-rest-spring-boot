@@ -16,7 +16,9 @@ data class QuestionFilter(
         val maxRank: Int? = null,
         val titleKeyword: String? = null,
         val contentKeyword: String? = null,
-        val answered: Boolean? = null) {
+        val answered: Boolean? = null,
+        val deleted: Boolean = false
+) {
 
     fun toSpecification(): Specifications<Question> = and(
             isGreaterThanStartDate(),
@@ -25,34 +27,39 @@ data class QuestionFilter(
             hasRankLess(),
             hasKeywordTitle(),
             hasKeywordContent(),
-            isAnswered()
+            isAnswered(),
+            isDeleted()
     )
 
     private fun isGreaterThanStartDate(): Specifications<Question>? = this.startCreatedDate?.let {
-        Question::createdDate.greaterThanOrEqualTo(this.startCreatedDate)
+        Question::createdDate.greaterThanOrEqualTo(it)
     }
 
     private fun isLessThanEndDate(): Specifications<Question>? = this.endCreatedDate?.let {
-        Question::createdDate.lessThanOrEqualTo(this.endCreatedDate)
+        Question::createdDate.lessThanOrEqualTo(it)
     }
 
     private fun hasRankGreater(): Specifications<Question>? = this.minRank?.let {
-        Question::rank.greaterThanOrEqualTo(this.minRank)
+        Question::rank.greaterThanOrEqualTo(it)
     }
 
     private fun hasRankLess(): Specifications<Question>? = this.maxRank?.let {
-        Question::rank.lessThanOrEqualTo(maxRank)
+        Question::rank.lessThanOrEqualTo(it)
     }
 
     private fun hasKeywordTitle(): Specifications<Question>? = this.titleKeyword?.let {
-        Question::title.like("%$titleKeyword%")
+        Question::title.like("%$it%")
     }
 
     private fun hasKeywordContent(): Specifications<Question>? = this.contentKeyword?.let {
-        Question::content.like("%$contentKeyword%")
+        Question::content.like("%$it%")
     }
 
     private fun isAnswered(): Specifications<Question>? = this.answered?.let {
-        Question::answered.equal(this.answered)
+        Question::answered.equal(it)
+    }
+
+    private fun isDeleted(): Specifications<Question> = this.deleted.let {
+        Question::deleted.equal(it)
     }
 }
