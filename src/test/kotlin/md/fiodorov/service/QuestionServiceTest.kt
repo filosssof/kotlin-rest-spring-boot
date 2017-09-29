@@ -1,10 +1,8 @@
 package md.fiodorov.service
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.nhaarman.mockito_kotlin.*
+import md.fiodorov.entity.Author
 import md.fiodorov.entity.Question
-import md.fiodorov.filter.QuestionFilter
 import md.fiodorov.repository.AuthorRepository
 import md.fiodorov.repository.QuestionRepository
 import org.junit.Test
@@ -28,8 +26,6 @@ class QuestionServiceTest {
     private val defaultPageRequest = PageRequest(0, 30, Sort.Direction.DESC, "createdDate")
 
     private val filterString = "{\"minRank\":0}"
-    private val filter: QuestionFilter = ObjectMapper().readValue(filterString)
-    private val specification: Specifications<Question> = filter.toSpecification()
 
     @Test
     fun findByFilterNoFilterTest() {
@@ -46,4 +42,22 @@ class QuestionServiceTest {
         verify(questionRepositoryMock, times(0)).findAll(any<Pageable>())
         verify(questionRepositoryMock, times(1)).findAll(any<Specifications<Question>>(), any<Pageable>())
     }
+
+    @Test
+    fun findByIdNegativeValidationTest() {
+        val negativeId = -1L
+        whenever(questionRepositoryMock.findOne(negativeId)).thenReturn(null)
+        toTest.findById(negativeId)
+    }
+
+    @Test
+    fun findByIdValidationTest() {
+        val validId = 1L
+        val question = getMockQuestion()
+        whenever(questionRepositoryMock.findOne(validId)).thenReturn(question)
+    }
+
+    private fun getMockQuestion() = Question(title = "Some title", content = "Some content", createdBy = getMockAuthor())
+
+    private fun getMockAuthor() = Author(email = "test@example.com", name = "NoName")
 }
