@@ -62,4 +62,5 @@ data class QuestionFilter(
     private fun isDeleted(): Specifications<Question> = this.deleted.let {
         Question::deleted.equal(it)
     }
+
 }

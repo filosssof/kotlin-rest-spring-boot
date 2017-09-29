@@ -11,6 +11,7 @@ import md.fiodorov.validation.NotNullOrNegative
 import md.fiodorov.view.CreateUpdateQuestionView
 import md.fiodorov.view.ShowQuestionView
 import md.fiodorov.view.toShowQuestionView
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.validation.annotation.Validated
@@ -25,7 +26,7 @@ import javax.persistence.EntityNotFoundException
 @Validated
 class QuestionService(val questionRepository: QuestionRepository, val authorRepository: AuthorRepository) {
 
-    fun findByFilter(filterString: String?, pageRequest: Pageable): Iterable<Question> {
+    fun findByFilter(filterString: String?, pageRequest: Pageable): Page<Question> {
         return if (filterString.isNullOrBlank()) {
             questionRepository.findAll(pageRequest)
         } else {
