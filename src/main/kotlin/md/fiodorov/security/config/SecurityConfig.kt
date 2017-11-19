@@ -19,10 +19,8 @@ import org.springframework.security.web.session.SessionManagementFilter
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity
-//@Order(SecurityProperties.DEFAULT_FILTER_ORDER)
 class SecurityConfig : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
-        //http.cors().disable()
         http.
                 csrf()
                 .disable()
