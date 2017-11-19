@@ -20,6 +20,7 @@ interface AnswerRepository: PagingAndSortingRepository<Answer, Long>, JpaSpecifi
 
 interface AuthorRepository: PagingAndSortingRepository<Author, Long>, JpaSpecificationExecutor<Author>{
     fun findOneByNameAndDeletedFalse(name: String):Author?
+    fun findOneByEmailAndDeletedFalse(email: String):Author?
 }
 
 

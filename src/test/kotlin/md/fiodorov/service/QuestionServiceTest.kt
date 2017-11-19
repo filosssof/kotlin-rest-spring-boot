@@ -3,6 +3,7 @@ package md.fiodorov.service
 import com.nhaarman.mockito_kotlin.*
 import md.fiodorov.entity.Author
 import md.fiodorov.entity.Question
+import md.fiodorov.repository.AnswerRepository
 import md.fiodorov.repository.AuthorRepository
 import md.fiodorov.repository.QuestionRepository
 import org.junit.Test
@@ -21,7 +22,8 @@ class QuestionServiceTest {
 
     private val questionRepositoryMock: QuestionRepository = mock()
     private val authorRepositoryMock: AuthorRepository = mock()
-    private val toTest: QuestionService = QuestionService(questionRepositoryMock, authorRepositoryMock)
+    private val answerRepository: AnswerRepository = mock();
+    private val toTest: QuestionService = QuestionService(questionRepositoryMock, authorRepositoryMock, answerRepository )
 
     private val defaultPageRequest = PageRequest(0, 30, Sort.Direction.DESC, "createdDate")
 
@@ -59,5 +61,5 @@ class QuestionServiceTest {
 
     private fun getMockQuestion() = Question(title = "Some title", content = "Some content", createdBy = getMockAuthor())
 
-    private fun getMockAuthor() = Author(email = "test@example.com", name = "NoName")
+    private fun getMockAuthor() = Author(email = "test@example.com", name = "NoName", password = "123123")
 }
