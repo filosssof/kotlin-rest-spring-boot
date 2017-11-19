@@ -2,8 +2,8 @@ group 'md.fiodorov'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.1.51'
-    ext.spring_boot_version = '1.5.7.RELEASE'
+    ext.kotlin_version = '1.1.60'
+    ext.spring_boot_version = '1.5.8.RELEASE'
     ext.junit_version = '4.12'
     ext.mockito_version = '1.5.0'
 

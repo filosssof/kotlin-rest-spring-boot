@@ -9,7 +9,4 @@ import javax.persistence.ManyToOne
  */
 
 @Entity
-class Answer : BaseModel() {
-    @ManyToOne
-    lateinit var question: Question
-}
+class Answer(val questionId: Long, override var content: String, override var createdBy: Author) : BaseModel()

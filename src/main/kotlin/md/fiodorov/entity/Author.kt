@@ -15,5 +15,6 @@ data class Author(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id
                   val name: String,
                   val email: String,
                   val registeredDate: Instant = Instant.now(),
-                  val karma: Int = 0
+                  val karma: Int = 0,
+                  val deleted: Boolean = false
 )

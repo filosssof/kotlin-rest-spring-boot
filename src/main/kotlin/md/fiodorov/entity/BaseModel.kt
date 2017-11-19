@@ -12,7 +12,7 @@ open class BaseModel() {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Long? = null
+    open var id: Long? = null
 
     var createdDate: Instant = Instant.now()
 
@@ -24,7 +24,7 @@ open class BaseModel() {
     @ManyToOne
     var editedBy: Author? = null
 
-    open var content: String = ""
+    open lateinit var content: String
 
     var rank: Int = 0
 
