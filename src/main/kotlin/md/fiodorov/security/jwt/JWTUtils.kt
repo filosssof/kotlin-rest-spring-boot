@@ -1,5 +1,7 @@
 package md.fiodorov.security.jwt
 
+import com.fasterxml.jackson.databind.JsonSerializer
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import md.fiodorov.entity.Author
@@ -37,8 +39,9 @@ internal object JWTUtils {
 
     fun addAuthentication(response: HttpServletResponse, user: Author) {
         val jwt = user.createJwt()
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080")
-        response.writer.write(jwt)
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:4200")
+        val jwtView = JwtView(jwt,user.name);
+        response.writer.write(jwtView.toJson())
         response.writer.flush()
         response.writer.close()
     }
@@ -61,3 +64,6 @@ internal object JWTUtils {
         return UsernamePasswordAuthenticationToken(username, null, res)
     }
 }
+
+class JwtView(val token: String, val username: String)
+fun JwtView.toJson(): String? = ObjectMapper().writeValueAsString(this)
