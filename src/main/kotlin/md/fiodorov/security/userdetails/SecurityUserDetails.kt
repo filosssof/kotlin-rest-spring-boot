@@ -13,7 +13,7 @@ class SecurityUserDetails(val user: Author) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority>
             = mutableListOf<GrantedAuthority>(SimpleGrantedAuthority(user.roles.name))
 
-    override fun getPassword(): String = user.password
+    override fun getPassword(): String? = user.password
 
     override fun getUsername(): String = user.email
 

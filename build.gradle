@@ -2,7 +2,7 @@ group 'md.fiodorov'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.1.60'
+    ext.kotlin_version = '1.1.61'
     ext.spring_boot_version = '1.5.8.RELEASE'
     ext.junit_version = '4.12'
     ext.mockito_version = '1.5.0'
@@ -39,6 +39,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-security:$spring_boot_version"
 
 
+
     compile "com.h2database:h2"
     compile "org.springframework.boot:spring-boot-starter:$spring_boot_version"
     compile "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"
@@ -49,6 +50,12 @@ dependencies {
     compile "au.com.console:kotlin-jpa-specification-dsl:0.1.0"
 
     compile "io.jsonwebtoken:jjwt:$jwt_version"
+    compile "org.springframework.social:spring-social-core:1.1.4.RELEASE"
+    compile "org.springframework.social:spring-social-config:1.1.4.RELEASE"
+    compile "org.springframework.social:spring-social-security:1.1.4.RELEASE"
+
+    compile "org.springframework.social:spring-social-facebook:2.0.3.RELEASE"
+
 
 
     testCompile "junit:junit:$junit_version"

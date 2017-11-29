@@ -14,12 +14,14 @@ import javax.persistence.*
 data class Author @PersistenceConstructor constructor(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long? = null,
                                                       val name: String,
                                                       val email: String,
-                                                      @JsonIgnore val password: String,
+                                                      @JsonIgnore var password: String? = null,
                                                       val registeredDate: Instant = Instant.now(),
-                                                      val karma: Int = 0,
-                                                      val deleted: Boolean = false,
+                                                      var karma: Int = 0,
+                                                      var deleted: Boolean = false,
                                                       @Enumerated(EnumType.STRING)
-                                                      val roles: Role = Role.GUEST
+                                                      var roles: Role = Role.GUEST,
+                                                      var avatarUrl:String? = null,
+                                                      var facebookId: String? = null
 
 )
 

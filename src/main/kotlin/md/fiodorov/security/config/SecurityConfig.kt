@@ -25,7 +25,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                 csrf()
                 .disable()
                 .antMatcher("/**").authorizeRequests()
-                .antMatchers("/user/**", "/questions/**", "/public/**").permitAll()
+                .antMatchers("/oauth/**", "/questions/**", "/public/**").permitAll()
                 .anyRequest().authenticated()
                 .antMatchers("/questions/**/answers").hasAuthority(Role.GUEST.name)
                 .and()
