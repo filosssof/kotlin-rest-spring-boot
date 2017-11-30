@@ -40,6 +40,7 @@ internal object JWTUtils {
         val jwt = user.createJwt()
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:4200")
         val jwtView = JwtView(jwt,user.name);
+        response.characterEncoding = "utf-8"
         response.writer.write(jwtView.toJson())
         response.writer.flush()
         response.writer.close()
