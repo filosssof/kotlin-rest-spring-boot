@@ -31,7 +31,7 @@ class QuestionController(val questionService: QuestionService) {
     val logger: Logger = LoggerFactory.getLogger(QuestionController::class.java)
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
+    @GetMapping(produces = [(MediaType.APPLICATION_JSON_VALUE)])
     fun findAll(@RequestParam(required = false) filter: String?,
                 @PageableDefault(direction = Sort.Direction.DESC, sort = arrayOf("createdDate"), size = 30)
                 pageRequest: Pageable): Page<Question> {
@@ -40,7 +40,7 @@ class QuestionController(val questionService: QuestionService) {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/{id}", produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
+    @GetMapping(value = ["/{id}"], produces = [(MediaType.APPLICATION_JSON_VALUE)])
     fun findById(@PathVariable id: Long): ShowQuestionView? {
         logger.debug("Called QuestionController#findById({})", id)
         return questionService.findById(id)
@@ -54,21 +54,21 @@ class QuestionController(val questionService: QuestionService) {
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = ["/{id}"])
     fun editQuestion(@PathVariable @NotNullOrNegative id: Long, @RequestBody @Valid view: CreateUpdateQuestionView) {
         logger.debug("Called QuestionController#editQuestion({})", view)
         questionService.edit(id,view)
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = ["/{id}"])
     fun deleteQuestion(@PathVariable @NotNullOrNegative id: Long){
         logger.debug("Called QuestionController#deleteQuestion({})", id)
         questionService.delete(id)
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/{id}/answers")
+    @GetMapping(value = ["/{id}/answers"])
     @ResponseBody
     fun getAnswersByQuestionId(@PathVariable @NotNullOrNegative id: Long,
                                @PageableDefault(direction = Sort.Direction.DESC, sort = arrayOf("createdDate"), size = 30)
@@ -78,7 +78,7 @@ class QuestionController(val questionService: QuestionService) {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(value = "/{id}/answers")
+    @PostMapping(value = ["/{id}/answers"])
 //    @Throws(NotLoggedInException::class, NotEnoughKarmaException::class)
     fun addAnswer(@PathVariable id: Long?, @RequestBody answerView: CreateUpdateAnswerView,
                   principal: Principal?) {
