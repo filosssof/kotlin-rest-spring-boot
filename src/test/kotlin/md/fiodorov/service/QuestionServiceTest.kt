@@ -61,5 +61,5 @@ class QuestionServiceTest {
 
     private fun getMockQuestion() = Question(title = "Some title", content = "Some content", createdBy = getMockAuthor())
 
-    private fun getMockAuthor() = Author(email = "test@example.com", name = "NoName", password = "123123")
+    private fun getMockAuthor() = Author(email = "test@example.com", name = "NoName")
 }

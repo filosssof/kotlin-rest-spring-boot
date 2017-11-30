@@ -43,7 +43,7 @@ class QuestionService(val questionRepository: QuestionRepository, val authorRepo
         return domain?.toShowQuestionView()
     }
 
-    fun add(view: CreateUpdateQuestionView, currentUser: Author = Author(name = "NoName", email = "noname@example.com", password = "1231233")) {//TODO remove default user after including user management
+    fun add(view: CreateUpdateQuestionView, currentUser: Author = Author(name = "NoName", email = "noname@example.com")) {//TODO remove default user after including user management
         val savedAuthor = authorRepository.save(currentUser)//TODO also remove this logic after real user login
         val question = Question(title = view.title, content = view.content, createdBy = savedAuthor)
         questionRepository.save(question)
@@ -55,7 +55,7 @@ class QuestionService(val questionRepository: QuestionRepository, val authorRepo
         questionRepository.save(storedQuestion)
     }
 
-    fun edit(@NotNullOrNegative id: Long, view: CreateUpdateQuestionView, currentUser: Author = Author(name = "NoName", email = "noname@example.com", password = "123123")) {//TODO remove default user after including user management
+    fun edit(@NotNullOrNegative id: Long, view: CreateUpdateQuestionView, currentUser: Author = Author(name = "NoName", email = "noname@example.com")) {//TODO remove default user after including user management
         val savedAuthor = authorRepository.save(currentUser)//TODO also remove this logic after real user login
         val storedQuestion = questionRepository.findOne(id) ?: throw EntityNotFoundException("The question with this id does not exist")
         processUpdateQuestion(view, storedQuestion, savedAuthor)
@@ -69,7 +69,7 @@ class QuestionService(val questionRepository: QuestionRepository, val authorRepo
 
     fun addAnswerForQuestion(@NotNullOrNegative questionId: Long, content: String, userName: String?){
 //        val author = authorRepository.findOneByNameAndDeletedFalse(userName)
-        val author = Author(name = "NoName", email = "noname@example.com", password = "123123")//TODO remove this
+        val author = Author(name = "NoName", email = "noname@example.com")//TODO remove this
         val dbAuthor = authorRepository.save(author)
         if(dbAuthor!=null){
             val answer = Answer(questionId,content, dbAuthor)

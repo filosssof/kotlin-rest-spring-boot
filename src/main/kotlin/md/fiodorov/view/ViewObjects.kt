@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import md.fiodorov.entity.Answer
 import md.fiodorov.entity.Author
 import md.fiodorov.entity.Question
-import md.fiodorov.entity.Role
 import md.fiodorov.utils.GravatarUtils
 import org.hibernate.validator.constraints.NotBlank
 import java.time.Instant
@@ -39,15 +38,6 @@ data class ShowAnswerView constructor(
         val createdDate: Instant,
         val editedBy: ShowAuthorView?,
         val editedDate: Instant?
-)
-
-data class NewAuthorView constructor(
-        val name: String,
-        val email: String,
-        val avatarSource: String?,
-        val registerDate:Instant?,
-        val roles:Role?,
-        val password:String?
 )
 
 data class ShowAuthorView constructor(
@@ -91,9 +81,3 @@ fun Answer.toShowAnswerView() = ShowAnswerView(
         editedBy = this.editedBy?.toShowAuthorView()
 )
 
-fun NewAuthorView.toAuthor() = Author(
-        name = this.name,
-        email = this.email,
-        password = this.password,
-        avatarUrl = this.avatarSource
-)

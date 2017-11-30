@@ -8,7 +8,6 @@ import org.springframework.social.facebook.api.User
 import org.springframework.social.facebook.api.impl.FacebookTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import javax.persistence.EntityNotFoundException
 import javax.servlet.http.HttpServletResponse
 
 /**
@@ -17,27 +16,29 @@ import javax.servlet.http.HttpServletResponse
  */
 @Service
 class FacebookService(val authorRepository: AuthorRepository) {
-//    fun signupFacebook()
 
     @Transactional
     fun loginFacebook(accessToken: String?, response: HttpServletResponse) {
-        if(accessToken==null){
+        if (accessToken == null) {
             throw IllegalArgumentException()
         }
-        val userProfile:User = getFacebookUser(accessToken)
+        val userProfile: User = getFacebookUser(accessToken)
         var author: Author? = authorRepository.findOneByFacebookIdAndDeletedFalse(userProfile.id)
-        if(author==null){
+        if (author == null) {
             author = authorRepository.findOneByEmailAndDeletedFalse(userProfile.email)
-            if(author!=null){
+            if (author != null) {
                 author.facebookId = userProfile.id
                 authorRepository.save(author)
-                JWTUtils.addAuthentication(response,author)
-            }else{
-                throw EntityNotFoundException()
+            } else {
+                author = createNewFacebookUser(userProfile)
             }
-        }else{
-            JWTUtils.addAuthentication(response,author)
         }
+        JWTUtils.addAuthentication(response, author)
+    }
+
+    private fun createNewFacebookUser(userProfile: User): Author {
+        val author = userProfile.toAuthor()
+        return authorRepository.save(author)
     }
 
     private fun getFacebookUser(accessToken: String): User {
@@ -45,5 +46,10 @@ class FacebookService(val authorRepository: AuthorRepository) {
         return facebook.userOperations().userProfile
     }
 
+    private fun User.toAuthor() = Author(
+            name = "${this.firstName}  ${this.lastName}",
+            email = this.email,
+            facebookId = this.id
+    )
 
 }
