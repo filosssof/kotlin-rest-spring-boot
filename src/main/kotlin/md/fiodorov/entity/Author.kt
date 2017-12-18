@@ -1,5 +1,6 @@
 package md.fiodorov.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.data.annotation.PersistenceConstructor
 import java.time.Instant
 import javax.persistence.*
@@ -13,6 +14,7 @@ import javax.persistence.*
 data class Author @PersistenceConstructor constructor(@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
                                                       val id: Long? = null,
                                                       val name: String,
+                                                      @JsonIgnore
                                                       val email: String,
                                                       val registeredDate: Instant = Instant.now(),
                                                       var karma: Int = 0,

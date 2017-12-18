@@ -33,7 +33,7 @@ class QuestionController(val questionService: QuestionService) {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(produces = [(MediaType.APPLICATION_JSON_VALUE)])
     fun findAll(@RequestParam(required = false) filter: String?,
-                @PageableDefault(direction = Sort.Direction.DESC, sort = arrayOf("createdDate"), size = 30)
+                @PageableDefault(direction = Sort.Direction.DESC, sort = ["createdDate"], size = 30)
                 pageRequest: Pageable): Page<Question> {
         logger.debug("Called QuestionController#finadAll() with \n filter:\t{} \n pagerRequest:\t{}", filter, pageRequest)
         return questionService.findByFilter(filterString = filter, pageRequest = pageRequest)
