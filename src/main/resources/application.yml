@@ -5,7 +5,7 @@ spring:
       WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: false
   social:
     facebook:
-      app-id: 370860263035094
-      app-secret: 1afeba84a17b230bbd7b264a5e63d863
+      app-id: your facebook-id
+      app-secret: your facebook secret
 
 
