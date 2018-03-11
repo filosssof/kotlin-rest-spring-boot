@@ -28,7 +28,7 @@ class OAuthController(private val facebookService: FacebookService) {
     @ResponseStatus(HttpStatus.OK)
     @Throws(IOException::class)
     fun refreshToken(@RequestBody refreshToken: String, response: HttpServletResponse): ResponseEntity<Void> {
-
+        TODO("Not implemented yet")
     }
 
 }
