@@ -15,13 +15,20 @@ import javax.servlet.http.HttpServletResponse
 @RestController
 class OAuthController(private val facebookService: FacebookService) {
 
-    @RequestMapping(value = "/facebook/login", method = arrayOf(RequestMethod.POST))
+    @RequestMapping(value = ["/facebook/login"], method = [(RequestMethod.POST)])
     @ResponseStatus(HttpStatus.OK)
     @Throws(IOException::class)
     fun loginFacebookClient(@RequestBody
                             accessToken: String, response: HttpServletResponse): ResponseEntity<Void> {
         facebookService.loginFacebook(accessToken, response)
         return ResponseEntity(HttpStatus.OK)
+    }
+
+    @RequestMapping(value = ["/refresh"], method = [(RequestMethod.POST)])
+    @ResponseStatus(HttpStatus.OK)
+    @Throws(IOException::class)
+    fun refreshToken(@RequestBody refreshToken: String, response: HttpServletResponse): ResponseEntity<Void> {
+
     }
 
 }

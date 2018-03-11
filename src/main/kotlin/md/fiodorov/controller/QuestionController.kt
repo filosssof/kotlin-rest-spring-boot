@@ -71,7 +71,7 @@ class QuestionController(val questionService: QuestionService) {
     @GetMapping(value = ["/{id}/answers"])
     @ResponseBody
     fun getAnswersByQuestionId(@PathVariable @NotNullOrNegative id: Long,
-                               @PageableDefault(direction = Sort.Direction.DESC, sort = arrayOf("createdDate"), size = 30)
+                               @PageableDefault(direction = Sort.Direction.DESC, sort = ["createdDate"], size = 30)
                                 pageRequest: Pageable, principal: Principal?): Page<Answer> {
         logger.debug("Called QuestionController#getAnswersByQuestionId({}) ", id)
         return questionService.getAnswersByQuestionId(id, pageRequest)
@@ -80,10 +80,10 @@ class QuestionController(val questionService: QuestionService) {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = ["/{id}/answers"])
 //    @Throws(NotLoggedInException::class, NotEnoughKarmaException::class)
-    fun addAnswer(@PathVariable id: Long?, @RequestBody answerView: CreateUpdateAnswerView,
-                  principal: Principal?) {
+    fun addAnswer(@PathVariable id: Long, @RequestBody answerView: CreateUpdateAnswerView,
+                  principal: Principal) {
         logger.debug("Called addAnswer for question id={} with content={} by {}",
-                id, answerView.content, principal?.name)
-        questionService.addAnswerForQuestion(answerView.questionId, answerView.content, principal?.name)
+                id, answerView.content, principal.name)
+        questionService.addAnswerForQuestion(id, answerView.content, principal.name)
     }
 }

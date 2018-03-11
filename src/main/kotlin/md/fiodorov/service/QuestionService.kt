@@ -67,9 +67,8 @@ class QuestionService(val questionRepository: QuestionRepository, val authorRepo
         return answerRepository.findAll(filter.toSpecification(), pageRequest)
     }
 
-    fun addAnswerForQuestion(@NotNullOrNegative questionId: Long, content: String, userName: String?){
-//        val author = authorRepository.findOneByNameAndDeletedFalse(userName)
-        val author = Author(name = "NoName", email = "noname@example.com")//TODO remove this
+    fun addAnswerForQuestion(@NotNullOrNegative questionId: Long, content: String, userName: String){
+        val author = authorRepository.findOneByNameAndDeletedFalse(userName)
         val dbAuthor = authorRepository.save(author)
         if(dbAuthor!=null){
             val answer = Answer(questionId,content, dbAuthor)

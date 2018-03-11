@@ -24,7 +24,7 @@ class CorsFilter : Filter {
 
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:4200") // You should edit this
         response.setHeader("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT,OPTIONS")
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type")
+        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
         response.setHeader("Access-Control-Allow-Credentials", true.toString())
 
         if ("OPTIONS".equals(request.method, ignoreCase = true)) {

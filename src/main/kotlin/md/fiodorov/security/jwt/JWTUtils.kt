@@ -20,15 +20,17 @@ import javax.servlet.http.HttpServletResponse
  * on 19/11/17.
  */
 internal object JWTUtils {
-    private val expiration: Long = 100L
-    private val secret = "Hail Hitler"
-    private val header = "Authorization"
+    private const val expiration: Long = 100L
+    private const val refreshTokenExpiration: Long = 30L
+    private const val secret = "Very-very secret secret"
+    private const val refreshSecret = "Very-very secret secret Secret"
+    private const val header = "Authorization"
 
     private val logger: Logger = LoggerFactory.getLogger(JWTUtils::class.java)
 
     private fun Author.createJwt(): String {
         val claims = HashMap<String, Any>()
-        claims.put("roles", this.roles)
+        claims["roles"] = this.roles
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(this.email)
@@ -36,10 +38,21 @@ internal object JWTUtils {
                 .signWith(SignatureAlgorithm.HS256, secret).compact()
     }
 
+    private fun Author.createRefreshToken(): String {
+        return Jwts.builder().setSubject(this.email)
+                .setExpiration(Date(Date().time + TimeUnit.DAYS.toMillis(refreshTokenExpiration)))
+                .signWith(SignatureAlgorithm.HS256, refreshSecret).compact()
+    }
+
+    fun refreshToken(response: HttpServletResponse, user: Author){
+
+    }
+
     fun addAuthentication(response: HttpServletResponse, user: Author) {
         val jwt = user.createJwt()
+        val refreshToken = user.createRefreshToken()
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:4200")
-        val jwtView = JwtView(jwt,user.name)
+        val jwtView = JwtView(jwt, refreshToken, user.name)
         response.characterEncoding = "utf-8"
         response.writer.write(jwtView.toJson())
         response.writer.flush()
@@ -48,7 +61,6 @@ internal object JWTUtils {
 
     fun getAuthentication(request: HttpServletRequest): Authentication? {
         val token = request.getHeader(header) ?: return null
-
         val tokenBody = Jwts.parser()
                 .setSigningKey(secret)
                 .parseClaimsJws(token)
@@ -56,7 +68,7 @@ internal object JWTUtils {
 
         val username: String = tokenBody.subject
         @Suppress("UNCHECKED_CAST")
-        val roles = tokenBody["roles"] as List<String>
+        val roles = listOf(tokenBody["roles"]) as List<String>
 
         val res = roles.mapTo(LinkedList<GrantedAuthority>()) { SimpleGrantedAuthority(it) }
 
@@ -65,5 +77,5 @@ internal object JWTUtils {
     }
 }
 
-class JwtView(val token: String, val username: String)
+class JwtView(val token: String, val refreshToken: String, val username: String)
 fun JwtView.toJson(): String? = ObjectMapper().writeValueAsString(this)

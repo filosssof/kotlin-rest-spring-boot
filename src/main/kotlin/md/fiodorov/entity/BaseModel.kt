@@ -24,6 +24,7 @@ open class BaseModel() {
     @ManyToOne
     var editedBy: Author? = null
 
+    @Column(length=2047)
     open lateinit var content: String
 
     var rank: Int = 0

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import md.fiodorov.entity.Answer
 import md.fiodorov.entity.Author
 import md.fiodorov.entity.Question
-import md.fiodorov.utils.GravatarUtils
 import org.hibernate.validator.constraints.NotBlank
 import java.time.Instant
 
@@ -43,12 +42,11 @@ data class ShowAnswerView constructor(
 data class ShowAuthorView constructor(
         val id: Long?,
         val name: String,
-        val avatarSource: String,
-        val karma: Int
+        val karma: Int,
+        val facebookId: String?
 )
 
 data class CreateUpdateAnswerView constructor(
-        val questionId: Long,
         val content: String
 )
 
@@ -56,7 +54,7 @@ fun Author.toShowAuthorView() = ShowAuthorView(
         id = this.id,
         name = this.name,
         karma = this.karma,
-        avatarSource = GravatarUtils.getImgSourceByGravar(this.email))
+        facebookId = this.facebookId)
 
 fun Question.toShowQuestionView() = ShowQuestionView(
         id = this.id,
